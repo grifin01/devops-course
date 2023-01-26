@@ -1,0 +1,23 @@
+services:
+  db:
+    image: mariadb
+    environment:
+      MARIADB_DATABASE: example
+      MARIADB_USER: root
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/db-password
+    secrets:
+      - db-password
+
+  web:
+    build:
+      context: .
+    ports:
+      - '8080:5000'
+    depends_on:
+      - db
+    secrets:
+      - db-password
+
+secrets:
+  db-password:
+    file: ./db-password.txt
