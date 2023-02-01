@@ -4,6 +4,7 @@ pipeline {
         stage('Build and Deploy') {
             steps {
                 withCredentials([string(credentialsId: 'db-password', variable: 'DB_SECRET')]) {
+                sh 'cd lab2/'    
                 sh 'echo -n $DB_SECRET > db-password.txt'
                 sh 'docker-compose up -d'
                 sh 'rm db-password.txt'
