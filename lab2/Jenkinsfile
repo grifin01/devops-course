@@ -1,0 +1,14 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build and Deploy') {
+            steps {
+                withCredentials([string(credentialsId: 'db-password', variable: 'DB_SECRET')]) {
+                sh 'echo -n $DB_SECRET > db-password.txt'
+                sh 'docker-compose up -d'
+                sh 'rm db-password.txt'
+                }    
+            }
+        }
+    }
+}
